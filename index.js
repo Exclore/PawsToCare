@@ -1,0 +1,101 @@
+let jsonData = JSON.stringify({
+    "dogs":[
+       {
+          "name":"Charlie",
+          "breed":"Doberman",
+          "sex":"M",
+          "shots":"Y",
+          "age":"8",
+          "size":"medium",
+          "licensed":"Y",
+          "neutered":"Y",
+          "owners":"Julia Reanolds",
+          "notes":"N/A"
+       },
+       {
+          "name":"Spike",
+          "breed":"Pitbull",
+          "sex":"M",
+          "shots":"N",
+          "age":"12",
+          "size":"large",
+          "licensed":"Y",
+          "neutered":"Y",
+          "owners":"Boris Yankovic",
+          "notes":"N/A"
+       },
+       {
+          "name":"Jewel",
+          "breed":"Poodle",
+          "sex":"F",
+          "shots":"Y",
+          "age":"4",
+          "size":"small",
+          "licensed":"N",
+          "neutered":"N",
+          "owners":"Pam Sanders",
+          "notes":"N/A"
+       }
+    ],
+    "cats":[
+       {
+          "name":"Maggie",
+          "breed":"Calico",
+          "sex":"F",
+          "shots":"Y",
+          "age":"11",
+          "declawed":"N",
+          "neutered":"Y",
+          "owners":"Amelia Frame",
+          "notes":"N/A"
+       },
+       {
+          "name":"Thomas",
+          "breed":"Tabby",
+          "sex":"M",
+          "shots":"Y",
+          "age":"4",
+          "declawed":"N",
+          "neutered":"Y",
+          "owners":"Paul Pence",
+          "notes":"N/A"
+       },
+       {
+          "name":"Mr. Pickles",
+          "breed":"British Shorthair",
+          "sex":"M",
+          "shots":"Y",
+          "age":"7",
+          "declawed":"Y",
+          "neutered":"N",
+          "owners":"Casey Bird",
+          "notes":"N/A"
+       }
+    ],
+    "exotics":[
+       {
+          "name":"Benedict",
+          "species":"Bearded Dragon",
+          "sex":"M",
+          "age":"3",
+          "owners":"Cody Wagstaff",
+          "notes":"N/A"
+       },
+       {
+          "name":"Pokey",
+          "species":"Guinea Pig",
+          "sex":"F",
+          "age":"2",
+          "owners":"Mark Anderson",
+          "notes":"N/A"
+       },
+       {
+          "name":"Dr. Quantum",
+          "species":"Cockatiel",
+          "sex":"M",
+          "age":"3",
+          "owners":"Burt Sanders",
+          "notes":"N/A"
+       }
+    ]
+ });

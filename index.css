@@ -1,0 +1,68 @@
+ #heading h1{
+    font-family: "Open Sans";
+    font-size: 80px;
+    text-align: center;
+    font-weight: 800;
+}
+
+#heading span{
+    font-size: 24px;
+    text-align: center;
+    font-weight: 300;
+    display: block;
+}
+
+header.masthead{
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 700px;
+    position: relative;
+    background-position-y: -150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+header.masthead .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #212529;
+    opacity: .4;
+}
+
+#heading{
+    font-family: "Open Sans";
+    color:white;
+}
+
+#logo{
+    color: white;
+    font-size:22px;
+    margin-right:5px;
+    transform: rotate(-14deg);
+}
+
+#homepageBlurb{
+    font-family: "Bitter";
+    font-size: 18px;
+}
+
+#contactInfo{
+    font-family: "Bitter";
+    font-size: 18px;
+    padding-top: 5%;
+}
+
+.footer{
+    position: absolute;
+    bottom: 0;
+}
+
+#body{
+    display: flex;
+    flex-direction: column;
+    min-height: 90vh;
+}
