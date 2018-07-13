@@ -15,9 +15,8 @@
 header.masthead{
     background-size: cover;
     background-repeat: no-repeat;
-    min-height: 700px;
+    min-height: 1000px;
     position: relative;
-    background-position-y: -150px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -53,18 +52,17 @@ header.masthead .overlay {
 #contactInfo{
     font-family: "Bitter";
     font-size: 18px;
-    padding-top: 5%;
 }
 
 .footer{
-    position: absolute;
+    height: 3vh;
     bottom: 0;
 }
 
 #body{
     display: flex;
     flex-direction: column;
-    min-height: 90vh;
+    min-height: 85vh;
 }
 
 .card-img{
@@ -85,9 +83,22 @@ header.masthead .overlay {
     display: flex;
     justify-content: center;
     align-items: start;
+    padding-top: 50px;
+    padding-bottom: 20px;
 }
 
 .card-box h4{
     text-align: center;
     font-family: "Bitter";
+    padding-top: 20px;
+}
+
+.adminLinks{
+    display: flex;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+nav{
+    max-height: 8vh;
 }
