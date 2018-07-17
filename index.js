@@ -1,4 +1,4 @@
-let jsonData = JSON.stringify({
+let jsonObj = {
     "dogs":[
        {
           "name":"Charlie",
@@ -97,11 +97,144 @@ let jsonData = JSON.stringify({
           "owners":"Burt Sanders",
           "notes":"N/A"
        }
-    ]
- });
+    ],
+    "descriptions":{
+        "name":"Name of Pet",
+        "breed":"Breed of the Pet",
+        "sex":"Sex of the Pet, Male or Female",
+        "shots":"Current Vaccination Status",
+        "age":"Age in Years",
+        "size":"Large, Medium, or Small",
+        "licensed":"Current License Status",
+        "neutered":"Whether Pet is Neutered",
+        "owners":"Owner(s) of the Pet",
+        "notes":"Misc. Information and Notes",
+        "declawed":"Whether Cat is Declawed",
+        "species":"Species of the Pet"
+    }
+};
+
+let table = $("#petTable");
+let tableData;
+let fields;
+let type;
+let sortKey;
+let sortAscending;
+function loadTable(petType, petFields)
+{
+    type = petType;
+    tableData = jsonObj[type];
+    fields = petFields;
+    let inner = '<thead class="thead-dark">';
+    
+    for(field of fields){
+        inner += '<th scope="col" class="text-capitalize pointer" data-key="' + field + '" title="' + jsonObj["descriptions"][field] + '"data-toggle="tooltip" data-placement="top">' + field + '<span id="asc">△</span><span id="desc">▽</span></th>'; 
+    }
+    inner += '<tr>';
+    for(field of fields){
+        inner +='<td><input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" data-key="' + field + '"/></td>'
+    }
+    inner += '</tr>';
+    inner += '</thead><tbody></tbody';
+    table.html(inner);
+    populateRows();
+    
+    table.on("click", "th", handleSort);
+    table.on("input", "input", filterPets);
+    table.find("td[data-shots]").on("click", null, shotModal);
+    table.find("td[data-shots]").addClass("pointer");
+    table.find("td[data-notes]").on("click", null, noteModal);
+    table.find("td[data-notes]").addClass("pointer");
+    $('[data-toggle="tooltip"]').tooltip();
+}
+
+function populateRows(){
+    let inner = "";
+    for(item of tableData){
+        inner += '<tr>';
+        for(field of fields){
+            inner += '<td ';
+            if(field == "shots"){
+                inner += 'data-shots="' + "COMING SOON" + '" ';
+            }
+            if(field == "notes"){
+                inner += 'data-notes="' + "COMING SOON" + '" ';
+            }
+            inner += '>' + item[field] + "</td>";
+        }
+        inner += '</tr>';
+    }
+    table.find("tbody").html(inner);
+
+}
+
+function handleSort(event){
+    let header = $(event.target);
+    sortKey = header.attr("data-key")
+    if(header.hasClass("desc")){
+        clearSort();
+        header.addClass("asc");
+        sortAscending = true;
+        sortPets();
+    }
+    else if(header.hasClass("asc")){
+        clearSort();
+        header.addClass("desc")
+        sortAscending = false;
+        sortPets();
+    }
+    else
+    {
+        clearSort();
+        header.addClass("asc");
+        sortAscending = true;
+        sortPets();
+    }
+}
 
 
+function filterPets(event){
+    tableData = jsonObj[type];
+    for(field of fields){
+        let text = table.find('input[data-key="' + field + '"]').val();
+        if(text != "" && text != null && text !== undefined){
+            tableData = tableData.filter(function(pet){
+                return pet[field].toLowerCase().startsWith(text.toLowerCase());
+            });
+        }
+    }
+    sortPets();
+}
 
 
+function sortPets(){
+    if(sortKey !== undefined){
+        let direction = sortAscending ? 1 : -1;
+        tableData.sort(function(a,b){
+            return a[sortKey].toLowerCase().localeCompare(b[sortKey].toLowerCase(), undefined ,{numeric: sortKey=="age"})*direction;
+        });
+    }
+    populateRows();
+}
 
- 
+function clearSort(){
+    table.find("th").removeClass("asc");
+    table.find("th").removeClass("desc");
+}
+
+function shotModal(event){
+    $('.modal-title').html("Shot Status");
+    $('.modal-body').html($(event.target).attr("data-shots"));
+    $("#exampleModalCenter").modal();
+}
+
+function noteModal(event){
+    $('.modal-title').html("Notes");
+    $('.modal-body').html($(event.target).attr("data-notes"));
+    $("#exampleModalCenter").modal();
+}
+
+$(document).ready(function(){
+    
+
+});

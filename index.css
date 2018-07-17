@@ -102,3 +102,33 @@ header.masthead .overlay {
 nav{
     max-height: 8vh;
 }
+
+.pointer{
+    cursor:pointer;
+}
+th{
+    -webkit-user-select: none;  
+    -moz-user-select: none;    
+    -ms-user-select: none;      
+    user-select: none;
+}
+th span{
+   visibility: hidden;
+   -webkit-user-select: none;  
+   -moz-user-select: none;    
+   -ms-user-select: none;      
+   user-select: none;
+}
+th span#desc{
+    display:none;
+}
+th.asc span#asc{
+    visibility: visible;
+}
+th.desc span#desc{
+    visibility: visible;
+    display:initial;
+}
+th.desc span#asc{
+    display:none;
+}
