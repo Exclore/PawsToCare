@@ -128,7 +128,7 @@ function loadTable(petType, petFields)
     let inner = '<thead class="thead-dark">';
     
     for(field of fields){
-        inner += '<th scope="col" class="text-capitalize pointer" data-key="' + field + '" title="' + jsonObj["descriptions"][field] + '"data-toggle="tooltip" data-placement="top">' + field + '<span id="asc">△</span><span id="desc">▽</span></th>'; 
+        inner += '<th scope="col" class="text-capitalize pointer" data-key="' + field + '" title="' + jsonObj["descriptions"][field] + '"data-toggle="tooltip" data-placement="top">' + field + '<span id="asc" class="d-none"> △</span><span id="desc" class="d-none"> ▽</span></th>'; 
     }
     inner += '<tr>';
     for(field of fields){
@@ -146,6 +146,7 @@ function loadTable(petType, petFields)
     table.find("td[data-notes]").on("click", null, noteModal);
     table.find("td[data-notes]").addClass("pointer");
     $('[data-toggle="tooltip"]').tooltip();
+    table.find("th").css("cursor", "pointer");
 }
 
 function populateRows(){
@@ -171,22 +172,22 @@ function populateRows(){
 function handleSort(event){
     let header = $(event.target);
     sortKey = header.attr("data-key")
-    if(header.hasClass("desc")){
+    if(header.find("span#desc").is(":visible")){
         clearSort();
-        header.addClass("asc");
+        header.find("span#asc").removeClass("d-none");
         sortAscending = true;
         sortPets();
     }
-    else if(header.hasClass("asc")){
+    else if(header.find("span#asc").is(":visible")){
         clearSort();
-        header.addClass("desc")
+        header.find("span#desc").removeClass("d-none");
         sortAscending = false;
         sortPets();
     }
     else
     {
         clearSort();
-        header.addClass("asc");
+        header.find("span#asc").removeClass("d-none");
         sortAscending = true;
         sortPets();
     }
@@ -218,8 +219,7 @@ function sortPets(){
 }
 
 function clearSort(){
-    table.find("th").removeClass("asc");
-    table.find("th").removeClass("desc");
+    table.find("th span").addClass("d-none");
 }
 
 function shotModal(event){
