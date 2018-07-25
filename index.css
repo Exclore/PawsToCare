@@ -1,4 +1,13 @@
-/* #heading h1{
+h1,h2,h3,h4,h5{
+    font-family: "Open Sans";
+}
+h2{
+    font-size: 32px;
+}
+p{
+    font-family: "Bitter";
+}
+#header h1{
     font-family: "Open Sans";
     font-size: 80px;
     text-align: center;
@@ -132,4 +141,3 @@ th.desc span#desc{
 th.desc span#asc{
     display:none;
 }
-*/
