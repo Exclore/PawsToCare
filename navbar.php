@@ -1,0 +1,45 @@
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="collapse navbar-collapse justify-content-space-between container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index.php"><i id="logo" class="fas fa-paw pr-2"></i>Paws to Care</a>
+            </div>
+            <ul class="navbar-nav">
+            <?php if(isAdmin()) : ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="adminHome.php">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="adminContact.php">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="adminAbout.php">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="dogs.php">Dogs</a>
+                </li>
+                <li class="nav-item">
+                        <a class="nav-link" href="cats.php">Cats</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="exotics.php">Exotics</a>
+                </li>
+            <?php else : ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="index.php">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact.php">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about.php">About</a>
+                </li>
+                <li class="nav-item" id="loginLink">
+                    <a class="nav-link" href="#" ><i id="loginIcon" class="fas fa-sign-in-alt"></i><span>Login</span></a>
+                </li>
+            <?php endif; ?>
+
+            </ul>
+        </div>
+
+    </nav>

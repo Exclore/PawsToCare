@@ -53,6 +53,24 @@ header.masthead .overlay {
     transform: rotate(-14deg);
 }
 
+#loginLink{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+#loginIcon{
+    color: white;
+    font-size:22px;
+    margin-left:5px;
+    margin-right: 7px;
+    margin-top: 2px;
+    transform:translate(0, 3px);
+}
+
+.navbar-nav > li > a {
+   line-height: 30px;
+}
+
 #homepageBlurb{
     font-family: "Bitter";
     font-size: 18px;
@@ -140,4 +158,10 @@ th.desc span#desc{
 }
 th.desc span#asc{
     display:none;
+}
+
+#mainsplash{
+    display:flex;
+    justify-content: center;
+    align-items: center;
 }
