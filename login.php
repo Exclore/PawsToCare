@@ -1,22 +1,48 @@
+
+
+
+
 <!DOCTYPE html>
 <html>
-    <?php include "defaulthead.php"; ?>
 <head>
+    <?php include "defaulthead.php"; ?>
+
+    <?php 
+        if(isLoggedIn()){
+            header("Location: /");
+            die;
+        }
+        $loginFail == false;
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $_SESSION = array();
+            // Get values submitted from the login form
+            $username = $_POST["username"];
+            $password = $_POST["password"];
+                    
+            $result = login($username, $password);
+            $loginFail = true;
+        }
+    ?>
+    <?php include("navbar.php"); ?>
 </head>
 
 <body>
+
     <div class="container">
     <h2>Paws to Care Login</h2>
-    <form action="/action_page.php" method="post">
+    <form action="" method="post">
         <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+            <label for="username">Username:</label>
+            <input class="form-control" <?php if(isset($_POST["username"])){echo 'value="'.$_POST["username"].'"';}?> id="username" placeholder="Enter username" name="username">
         </div>
         <div class="form-group">
-        <label for="pwd">Password:</label>
-        <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">
+            <label for="pwd">Password:</label>
+            <input type="password" <?php if(isset($_POST["password"])){echo 'value="'.$_POST["password"].'"';}?>class="form-control" id="pwd" placeholder="Enter password" name="password">
         </div>
         <button type="submit" class="btn btn-default">Submit</button>
+        <?php if($loginFail) : ?>
+            <span class="text-danger">LOGIN FAILED</span>
+        <?php endif; ?>
     </form>
     </div>
     

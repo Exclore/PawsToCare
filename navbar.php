@@ -1,3 +1,5 @@
+
+
     <!--Navbar-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="collapse navbar-collapse justify-content-space-between container">
@@ -34,8 +36,21 @@
                 <li class="nav-item">
                     <a class="nav-link" href="about.php">About</a>
                 </li>
+                
+            <?php endif; ?>
+            <?php if(isLoggedIn()): ?>
+                <?php if(!isAdmin()) : ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ownerPets.php" ><span>My Pets</span></a>
+                    </li>
+                <?php endif; ?>
                 <li class="nav-item" id="loginLink">
-                    <a class="nav-link" href="#" ><i id="loginIcon" class="fas fa-sign-in-alt"></i><span>Login</span></a>
+                    <a class="nav-link" href="logout.php" ><i id="loginIcon" class="fas fa-sign-out-alt"></i><span>Logout</span></a>
+                </li>
+
+            <?php else: ?>
+                 <li class="nav-item" id="loginLink">
+                    <a class="nav-link" href="login.php" ><i id="loginIcon" class="fas fa-sign-in-alt"></i><span>Login</span></a>
                 </li>
             <?php endif; ?>
 

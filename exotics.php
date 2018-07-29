@@ -2,7 +2,8 @@
 <html>
 <head>
     <?php include "defaulthead.php"; ?>
-    <?php $isAdmin = true; ?>
+    <?php loginRequired(); ?>
+    <?php adminRequired(); ?>
     
 </head>
 

@@ -23,28 +23,57 @@
                 </div>
                 <br>
                 <div class="row text-center">
-                    <div class=col-lg-3></div>
-                    <div class="col-lg-2">
-                        <div class="container">
-                            <a href="dogs.php">
-                                <button type="button" class="btn btn-outline-light">Dogs</button>
-                            </a>
+                    <?php if(isAdmin() && isLoggedIn()) : ?>
+                        <div class=col-lg-3></div>
+                        <div class="col-lg-2">
+                            <div class="container">
+                                <a href="dogs.php">
+                                    <button type="button" class="btn btn-outline-light">Dogs</button>
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-2">
-                        <div class="container">
-                            <a href="cats.php">
-                                <button type="button" class="btn btn-outline-light">Cats</button>
-                            </a>
+                        <div class="col-lg-2">
+                            <div class="container">
+                                <a href="cats.php">
+                                    <button type="button" class="btn btn-outline-light">Cats</button>
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-2">
-                        <div class="container">
-                            <a href="exotics.php">
-                                <button type="button" class="btn btn-outline-light">Exotics</button>
-                            </a>
+                        <div class="col-lg-2">
+                            <div class="container">
+                                <a href="exotics.php">
+                                    <button type="button" class="btn btn-outline-light">Exotics</button>
+                                </a>
+                            </div>
                         </div>
-                    </div>
+                    <?php elseif(!isAdmin() && isLoggedIn()) : ?>
+                        <div class="col-lg-5"></div>
+                        <div class="col-lg-2">
+                            <div class="container">
+                                <a href="ownerPets.php">
+                                    <button type="button" class="btn btn-outline-light">My Pets</button>
+                                </a>
+                            </div>
+                        </div>
+                    <?php else :?>
+                        <div class=col-lg-4></div>
+                        <div class="col-lg-2">
+                            <div class="container">
+                                <a href="about.php">
+                                    <button type="button" class="btn btn-outline-light">About Us</button>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="container">
+                                <a href="contact.php">
+                                    <button type="button" class="btn btn-outline-light">Contact Us</button>
+                                </a>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+
                 </div>
             </div>
         </div>
