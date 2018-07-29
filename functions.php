@@ -16,7 +16,7 @@ function loginRequired(){
 
 function adminRequired(){
     if(!isAdmin()){
-        header("Location: /login.php")
+        header("Location: /login.php");
         die;
     }
 }
