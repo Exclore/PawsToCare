@@ -12,10 +12,10 @@ let petNames = ["Abbey","Abbie","Abby","Abel","Abigail","Ace","Adam","Addie","Ad
 let vetNames = ["Cynthia Truska", "John Truska", "Shawn Smith", "Julie Hammond", "Christopher Wright"];
 
     function petSQL(table, pet){
-        return "INSERT INTO " + table + " VALUES(" + pet["sql"].join(", ") + ");\n";
+        return "INSERT INTO " + table + " VALUES(NULL, " + pet["sql"].join(", ") + ");<br>";
     }
     function arraySQL(table, data){
-        return "INSERT INTO " + table + " VALUES(" + data.join(", ") + ");\n";
+        return "INSERT INTO " + table + " VALUES(NULL, " + data.join(", ") + ");<br>";
     }
     function rand(array){
         return array[Math.floor(Math.random()*array.length)];
@@ -67,6 +67,9 @@ let vetNames = ["Cynthia Truska", "John Truska", "Shawn Smith", "Julie Hammond",
         return {sql:[q(faker.name.firstName()), q(faker.name.lastName()), q(faker.address.streetAddress()), q((randInt(0,99)<20 ? faker.address.secondaryAddress() : "")), q(faker.address.city()),q(faker.address.stateAbbr()),q(faker.address.zipCode().split("-")[0]), "FALSE"]};
     }
     function generateNote(id, bday){
+        if(bday == undefined){
+            bday = randomDate(7300);
+        }
         return {sql:[id, q(rand(vetNames)), q(dateToSQL(randomDate((new Date()-bday)/(1000 * 3600 * 24)))), q(faker.lorem.paragraph())]};
     }
     function generateNotes(pets){
@@ -78,18 +81,70 @@ let vetNames = ["Cynthia Truska", "John Truska", "Shawn Smith", "Julie Hammond",
         }
         return notes;
     }
-    function generateOwnerRelationships(owners,pets){
-        /*let extraRelationships = Math.Floor(pets.length*1.5);
-        let relationships = Array(pets.length + extraRelationships);
-        for(let pos=0; pos<numNotes; pos++){
-            let petNum = randInt(0,pets.length);
-            notes[pos] = generateNote(petNum+1, pets[petNum]["bday"]);
-        }*/
-        return notes;
+
+    function shuffle(a) {
+        for (let i = a.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+    }
+
+    function petArrayCreator(catL, dogL, exoticL){
+        let allPets = Array();
+        for(let i=0; i<catL; i++){
+            allPets.push(Array("cat",i+1));
+        }
+        for(let i=0; i<dogL; i++){
+            allPets.push(Array("dog",i+1));
+        }
+        for(let i=0; i<exoticL; i++){
+            allPets.push(Array("exotic",i+1));
+        }
+        return shuffle(allPets);
+    }
+
+    function generateOwnerPetRelationships(ownerL,catL,dogL,exoticL){
+        let catRelationships = Array();
+        let dogRelationships = Array();
+        let exoticRelationships = Array();
+        let allPets = petArrayCreator(catL, dogL, exoticL);
+        for(let i=0; i<ownerL; i++)
+        {
+            let pet = allPets.pop();
+            switch(pet[0]){
+                case "cat":
+                    catRelationships.push(Array(pet[1], i+1));
+                    break;
+                case "dog":
+                    dogRelationships.push(Array(pet[1], i+1));
+                    break;
+                case "exotic":
+                    exoticRelationships.push(Array(pet[1], i+1));
+                    break;
+            }
+        }
+        while(allPets.length > 0){
+            let pet = allPets.pop();
+            let r = randInt(0, ownerL);
+            switch(pet[0]){
+                case "cat":
+                    catRelationships.push(Array(pet[1], r+1));
+                    break;
+                case "dog":
+                    dogRelationships.push(Array(pet[1], r+1));
+                    break;
+                case "exotic":
+                    exoticRelationships.push(Array(pet[1], r+1));
+                    break;
+            }
+        }
+        let relationships = {cats:catRelationships,dogs:dogRelationships,exotics: exoticRelationships}
+        return relationships;
     }
 
     function generate(generator, num){
-        let arr = Array(num);
+        let arr = Array();
         for(let pos = 0; pos<num; pos++){
             arr[pos] = generator();
         }
@@ -97,17 +152,54 @@ let vetNames = ["Cynthia Truska", "John Truska", "Shawn Smith", "Julie Hammond",
     }
     $(document).ready( function(){
             let code = "";
-            let cats = generate(generateCat, 50);
-            let dogs = generate(generateDog, 50);
-            let exotics = generate(generateExotic, 50);
-            let owners = generate(generateOwner,50);
+            let cats = generate(generateCat, 2000);
+            let dogs = generate(generateDog, 2000);
+            let exotics = generate(generateExotic, 1000);
+            let owners = generate(generateOwner,3333);
             let catNotes = generateNotes(cats);
             let dogNotes = generateNotes(dogs);
             let exoticNotes = generateNotes(exotics);
             let ownerNotes = generateNotes(owners);
-            console.log(cats);
-            console.log(catNotes);
-            $("body").html();
+            let relationships = generateOwnerPetRelationships(owners.length,cats.length, dogs.length, exotics.length);
+            let catOwners = relationships["cats"];
+            let dogOwners = relationships["dogs"];
+            let exoticOwners = relationships["exotics"];
+
+            for(cat of cats){
+                code += petSQL("cats", cat);
+            }
+            for(dog of dogs){
+                code += petSQL("dogs", dog);
+            }
+            for(exotic of exotics){
+                code += petSQL("exotics", exotic);
+            }
+            for(owner of owners){
+                code += petSQL("owners", owner);
+            }
+            for(note of catNotes){
+                code += petSQL("catNotes", note);
+            }
+            for(note of dogNotes){
+                code += petSQL("dogNotes", note);
+            }
+            for(note of exoticNotes){
+                code += petSQL("exoticNotes", note);
+            }
+            for(note of ownerNotes){
+                code += petSQL("ownerNotes", note);
+            }
+            for(rel of catOwners){
+                code += arraySQL("catsOwners", rel);
+            }
+            for(rel of dogOwners){
+                code += arraySQL("dogsOwners", rel);
+            }
+            for(rel of exoticOwners){
+                code += arraySQL("exoticsOwners", rel);
+            }
+
+            $("body").html(code);
     });
 </script>
 </head>
