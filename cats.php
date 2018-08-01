@@ -2,8 +2,8 @@
 <html>
 <head>
     <?php include "defaulthead.php"; ?>
-    <?php loginRequired(); ?>
-    <?php adminRequired(); ?>
+    <?php //loginRequired(); ?>
+    <?php //adminRequired(); ?>
 </head>
 
 <body>
