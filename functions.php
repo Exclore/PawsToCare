@@ -1,7 +1,7 @@
 <?php
 session_start();
 session_register_shutdown();
-require_once ("config.php");
+require_once ($_SERVER['DOCUMENT_ROOT'] . '/config.php');
 
 function isLoggedIn(){
     return isset($_SESSION['username']);
@@ -30,13 +30,14 @@ function isAdmin(){
 
 function login($username, $password){
     global $db;
-    $q = $db->prepare('SELECT users.username, users.pass, userType.type FROM users LEFT JOIN userType ON users.user_type_id = userType.id WHERE username LIKE ? LIMIT 1');
+    $q = $db->prepare('SELECT users.id, users.username, users.pass, userType.type FROM users LEFT JOIN userType ON users.user_type_id = userType.id WHERE username LIKE ? LIMIT 1');
     $q->bind_param("s", $username);
     $q->execute();
     $q->store_result();
-    $q->bind_result($dbUsername, $dbPassword, $dbUserType);
+    $q->bind_result($userId, $dbUsername, $dbPassword, $dbUserType);
     $q->fetch();
     if(password_verify($password, $dbPassword)){
+        $_SESSION['userId'] = $userId;
         $_SESSION["username"] = $dbUsername;
         $_SESSION["userType"] = $dbUserType;
         header("Location: /");

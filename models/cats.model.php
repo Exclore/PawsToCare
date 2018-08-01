@@ -1,13 +1,17 @@
 <?php
 class Cats {
 
+    static $headers = ["Name", "Breed", "Sex", "Shots", "Declawed", "Neutered", "Birthdate"];
+
     static function getById($catId){
+        error_log("Getting cat with id: " . $catId);
         global $db;
         $q = $db->prepare('SELECT * FROM cats WHERE id = ?');
-        $q->bind_params("i", $catId);
+        $q->bind_param("i", $catId);
         $q->execute();
         $q->bind_result($id, $name, $breed, $sex, $shots, $declawed, $neutered, $birthday);
         while($q->fetch()){
+            error_log("Adding cat: " . $name);
             return [$name, $breed, $sex, $shots, $declawed, $neutered, $birthday];
         }
     }
@@ -20,7 +24,7 @@ class Cats {
         $cats = [];
         global $db;
         $q = $db->prepare('SELECT * FROM catsOwners WHERE id = ?');
-        $q->bind_params("i", $ownerId);
+        $q->bind_param("i", $ownerId);
         $q->execute();
         $q->bind_result($id, $catsFk, $ownersFk);
 
@@ -31,6 +35,7 @@ class Cats {
         foreach($catIds as $catId) {
             array_push($cats, Cats::getById($catId));
         }
+        //error_log(print_r($cats,true));
 
         return $cats;
 

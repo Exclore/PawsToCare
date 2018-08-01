@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <?php include "defaulthead.php"; ?>
 
     <?php 
+    include "template/header.php";
+
+   
         if(isLoggedIn()){
             header("Location: /");
             die;
@@ -19,10 +18,7 @@
             $loginFail = true;
         }
     ?>
-    <?php include("navbar.php"); ?>
-</head>
 
-<body>
 
     <div class="container">
     <h2>Paws to Care Login</h2>
@@ -42,7 +38,4 @@
     </form>
     </div>
     
-    <?php include "defaultscripts.php"; ?>
-</body>
-
-</html>
+    <?php include "template/footer.php"; ?>

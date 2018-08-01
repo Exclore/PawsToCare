@@ -1,10 +1,12 @@
 <?php
 class Dogs {
 
+    static $headers = [ "Name", "Breed", "Sex", "Shots", "Licensed", "Neutered", "Birthdate", "Weight" ];
+
     static function getById($dogId){
         global $db;
         $q = $db->prepare('SELECT * FROM dogs WHERE id = ?');
-        $q->bind_params("i", $dogId);
+        $q->bind_param("i", $dogId);
         $q->execute();
         $q->bind_result($id, $name, $breed, $sex, $shots, $licenses, $neutered, $birthday, $size);
         while($q->fetch()){
@@ -20,7 +22,7 @@ class Dogs {
         $dogs = [];
         global $db;
         $q = $db->prepare('SELECT * FROM dogsOwners WHERE id = ?');
-        $q->bind_params("i", $ownerId);
+        $q->bind_param("i", $ownerId);
         $q->execute();
         $q->bind_result($id, $dogsFk, $ownersFk);
         
@@ -32,7 +34,7 @@ class Dogs {
             array_push($dogs, Dogs::getById($dogId));
         }
 
-        return $cats;
+        return $dogs;
 
     }
 
