@@ -1,16 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <?php include "defaulthead.php"; ?>
-    
-</head>
 
-<body>
-    <?php include "navbar.php"; ?>
+    <?php include "template/header.php"; ?>
+
         <!--Header-->
     <!--<header class="masthead" height="600">-->
     <div class="card border-0 mw-100 shadow">
-        <img class="mw-100" src="images/kittens.jpeg"/>
+        <img class="mw-100" src="images/Kittens.jpeg"/>
         <div class="container card-img-overlay" id="mainsplash">
             <div class="w-100">
                 <div class="row text-center">
@@ -27,21 +21,21 @@
                         <div class=col-lg-3></div>
                         <div class="col-lg-2">
                             <div class="container">
-                                <a href="dogs.php">
+                                <a href="/admin/dogs.php">
                                     <button type="button" class="btn btn-outline-light">Dogs</button>
                                 </a>
                             </div>
                         </div>
                         <div class="col-lg-2">
                             <div class="container">
-                                <a href="cats.php">
+                                <a href="/admin/cats.php">
                                     <button type="button" class="btn btn-outline-light">Cats</button>
                                 </a>
                             </div>
                         </div>
                         <div class="col-lg-2">
                             <div class="container">
-                                <a href="exotics.php">
+                                <a href="/admin/exotics.php">
                                     <button type="button" class="btn btn-outline-light">Exotics</button>
                                 </a>
                             </div>
@@ -111,28 +105,6 @@
             </div>
         </div>
     </div>
-    <!--Footer 
-    TODO: Force to bottom of page-->
-    <footer class="page-footer font-small bg-dark pt-4">
-        <div class="footer-copyright text-center py-3 text-light">&copy;2018 Copyright:
-            <a href="index.html"> Paws to Care</a>
-        </div>
-    </footer>
-
+  
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <?php include "defaultscripts.php"; ?>
-</body>
-
-
-</html>
+    <?php include "template/footer.php"; ?>

@@ -1,0 +1,175 @@
+html, body {
+    height:100%;
+}
+
+h1,h2,h3,h4,h5{
+    font-family: "Open Sans";
+}
+h2{
+    font-size: 32px;
+}
+p{
+    font-family: "Bitter";
+}
+#header h1{
+    font-family: "Open Sans";
+    font-size: 80px;
+    text-align: center;
+    font-weight: 800;
+}
+
+#heading span{
+    font-size: 24px;
+    text-align: center;
+    font-weight: 300;
+    display: block;
+}
+
+header.masthead{
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 1000px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+header.masthead .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #212529;
+    opacity: .4;
+}
+
+#heading{
+    font-family: "Open Sans";
+    color:white;
+}
+
+#logo{
+    color: white;
+    font-size:22px;
+    margin-right:5px;
+    transform: rotate(-14deg);
+}
+
+#loginLink{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+#loginIcon{
+    color: white;
+    font-size:22px;
+    margin-left:5px;
+    margin-right: 7px;
+    margin-top: 2px;
+    transform:translate(0, 3px);
+}
+
+.navbar-nav > li > a {
+   line-height: 30px;
+}
+
+#homepageBlurb{
+    font-family: "Bitter";
+    font-size: 18px;
+}
+
+#contactInfo{
+    font-family: "Bitter";
+    font-size: 18px;
+}
+
+footer{
+    height: 12vh;
+    color: rgba(255,255,255,.5);
+    position:relative;
+    bottom: 0px;
+}
+
+#body{
+    display: flex;
+    flex-direction: column;
+    min-height: 85vh;
+    padding-bottom:12vh;
+}
+
+.card-img{
+    width: auto;
+    height: 150px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.card{
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+}
+
+.media-container-row{
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+.card-box h4{
+    text-align: center;
+    font-family: "Bitter";
+    padding-top: 20px;
+}
+
+.adminLinks{
+    display: flex;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+nav{
+    max-height: 8vh;
+}
+
+.pointer{
+    cursor:pointer;
+}
+th{
+    -webkit-user-select: none;  
+    -moz-user-select: none;    
+    -ms-user-select: none;      
+    user-select: none;
+}
+th span{
+   visibility: hidden;
+   -webkit-user-select: none;  
+   -moz-user-select: none;    
+   -ms-user-select: none;      
+   user-select: none;
+}
+th span#desc{
+    display:none;
+}
+th.asc span#asc{
+    visibility: visible;
+}
+th.desc span#desc{
+    visibility: visible;
+    display:initial;
+}
+th.desc span#asc{
+    display:none;
+}
+
+#mainsplash{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
