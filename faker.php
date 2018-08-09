@@ -3,6 +3,7 @@
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src = "ServerSetup/FakerJS/faker.js-master/build/build/faker.js" type = "text/javascript"></script>
+<?php include_once "functions.php" ?>
 <script>
 
 let catBreeds = ["Abyssinian","American Bobtail","American Curl","American Shorthair","American Wirehair","Balinese","Bengal","Birman","Bombay","British Shorthair","Burmese","Burmilla","Chartreux","Colorpoint Shorthair","Cornish Rex","Devon Rex","Egyptian Mau","European Burmese","Exotic","Havana Brown","Japanese Bobtail","Khao Manee","Korat","LaPerm","Lykoi","Maine Coon Cat","Manx","Norwegian Forest Cat","Ocicat","Oriental","Persian","Ragamuffin","Ragdoll","Russian Blue","Scottish Fold","Selkirk Rex","Siamese","Siberian","Singapura","Somali","Sphynx","Tonkinese","Turkish Angora","Turkish Van"];
@@ -150,7 +151,8 @@ let vetNames = ["Cynthia Truska", "John Truska", "Shawn Smith", "Julie Hammond",
         }
         return arr;
     }
-    $(document).ready( function(){
+    $(document).ready( function(){\
+        /*
             let code = "";
             let cats = generate(generateCat, 2000);
             let dogs = generate(generateDog, 2000);
@@ -199,11 +201,32 @@ let vetNames = ["Cynthia Truska", "John Truska", "Shawn Smith", "Julie Hammond",
                 code += arraySQL("exoticsOwners", rel);
             }
 
-            $("body").html(code);
+            $("body").html(code);*/
     });
+
+
 </script>
 </head>
 <body>
 
 </body>
+
+<?php
+global $db;
+$q = $db->prepare('SELECT owners.id, owners.fname, owners.lname FROM owners');
+$q->execute();
+$q->store_result();
+
+$data = array();
+
+$q->bind_result($id, $fname, $lname);
+while (mysqli_stmt_fetch($q)){
+    $uname = ($fname[0].$lname);
+    $pass = password_hash(strrev($fname[0].$lname), PASSWORD_BCRYPT);
+    echo 'INSERT INTO users VALUES (NULL, "'.$uname.'", "'.$pass.'", 2, '.$id.');<br>';
+}
+
+
+
+?>
 

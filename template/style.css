@@ -173,3 +173,9 @@ th.desc span#asc{
     align-items: center;
 }
 
+.fas.fa-check-circle{
+    color:green;
+}
+.fas.fa-times-circle{
+    color:red;
+}

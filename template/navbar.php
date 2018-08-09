@@ -9,22 +9,22 @@
             <ul class="navbar-nav">
             <?php if(isAdmin()) : ?>
                 <li class="nav-item">
-                    <a class="nav-link" href="/adminHome.php">Home</a>
+                    <a class="nav-link" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/adminContact.php">Contact</a>
+                    <a class="nav-link" href="/contact.php">Contact</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/adminAbout.php">About</a>
+                    <a class="nav-link" href="/about.php">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin/dogs.php">Dogs</a>
+                    <a class="nav-link" href="/dogs.php">Dogs</a>
                 </li>
                 <li class="nav-item">
-                        <a class="nav-link" href="/admin/cats.php">Cats</a>
+                        <a class="nav-link" href="/cats.php">Cats</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin/exotics.php">Exotics</a>
+                    <a class="nav-link" href="/exotics.php">Exotics</a>
                 </li>
             <?php else : ?>
                 <li class="nav-item">

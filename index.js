@@ -1,4 +1,4 @@
-let jsonObj = {
+let jsonObj;/* = {
     "dogs":[
        {
           "name":"Charlie",
@@ -98,37 +98,39 @@ let jsonObj = {
           "notes":"N/A"
        }
     ],
-    "descriptions":{
-        "name":"Name of Pet",
-        "breed":"Breed of the Pet",
-        "sex":"Sex of the Pet, Male or Female",
-        "shots":"Current Vaccination Status",
-        "age":"Age in Years",
-        "size":"Large, Medium, or Small",
-        "licensed":"Current License Status",
-        "neutered":"Whether Pet is Neutered",
-        "owners":"Owner(s) of the Pet",
-        "notes":"Misc. Information and Notes",
-        "declawed":"Whether Cat is Declawed",
-        "species":"Species of the Pet"
-    }
+    
+};*/
+let descriptions = {
+    "name":"Name of Pet",
+    "breed":"Breed of the Pet",
+    "sex":"Sex of the Pet, Male or Female",
+    "shots":"Current Vaccination Status",
+    "age":"Age in Years",
+    "size":"Large, Medium, or Small",
+    "licensed":"Current License Status",
+    "neutered":"Whether Pet is Neutered",
+    "owner":"Owner(s) of the Pet",
+    "notes":"Misc. Information and Notes",
+    "declawed":"Whether Cat is Declawed",
+    "species":"Species of the Pet"
 };
-
 let table = $("#petTable");
 let tableData;
 let fields;
-let type;
 let sortKey;
 let sortAscending;
-function loadTable(petType, petFields)
+let rowsPerPage = 10;
+let pages;
+let currentPage = 1;
+
+function loadTable()
 {
-    type = petType;
-    tableData = jsonObj[type];
-    fields = petFields;
+    tableData = jsonObj["data"];
+    fields = Object.keys(jsonObj["data"][0]);
     let inner = '<thead class="thead-dark">';
     
     for(field of fields){
-        inner += '<th scope="col" class="text-capitalize pointer" data-key="' + field + '" title="' + jsonObj["descriptions"][field] + '"data-toggle="tooltip" data-placement="top">' + field + '<span id="asc" class="d-none"> △</span><span id="desc" class="d-none"> ▽</span></th>'; 
+        inner += '<th scope="col" class="text-capitalize pointer" data-key="' + field + '" title="' + descriptions[field] + '"data-toggle="tooltip" data-placement="top">' + field + '<span id="asc"> &#9651;</span><span id="desc"> &#9661;</span></th>'; 
     }
     inner += '<tr>';
     for(field of fields){
@@ -141,8 +143,8 @@ function loadTable(petType, petFields)
     
     table.on("click", "th", handleSort);
     table.on("input", "input", filterPets);
-    table.find("td[data-shots]").on("click", null, shotModal);
-    table.find("td[data-shots]").addClass("pointer");
+    //table.find("td[data-shots]").on("click", null, shotModal);
+    //table.find("td[data-shots]").addClass("pointer");
     table.find("td[data-notes]").on("click", null, noteModal);
     table.find("td[data-notes]").addClass("pointer");
     $('[data-toggle="tooltip"]').tooltip();
@@ -151,17 +153,40 @@ function loadTable(petType, petFields)
 
 function populateRows(){
     let inner = "";
-    for(item of tableData){
+    for(i=((currentPage-1)*rowsPerPage);i<(((currentPage-1)*rowsPerPage)+(tableData.length>rowsPerPage?rowsPerPage:tableData.length));i++){
         inner += '<tr>';
         for(field of fields){
-            inner += '<td ';
-            if(field == "shots"){
-                inner += 'data-shots="' + "COMING SOON" + '" ';
-            }
+            let data = tableData[i][field];
             if(field == "notes"){
-                inner += 'data-notes="' + "COMING SOON" + '" ';
+                if(data == null){
+                    inner += '<td><i>None</i></td>';
+                }
+                else{
+                    inner += '<td data-notes="';
+                    console.log(data);
+                    console.log(data[0]["vet"]);
+                    for(note of data){
+                        //inner += '<td data-notes=\'' + JSON.stringify(data) + '\' >'+data.length+'</td>'; // TODO - make pretty
+                        inner += '<b>'+note["vet"]+'</b><br>';
+                        inner += note["date"].split(' ')[0] + '<br>';
+                        inner += note["note"] + '<br><br>';
+                    }
+                    inner += '" >'+ data.length +'</td>';
+                }
             }
-            inner += '>' + item[field] + "</td>";
+            else if(field == "shots" || field == "declawed" || field == "neutered" || field == "licensed"){
+                inner += '<td>';
+                if(data == "yes"){
+                    inner += '<i class="fas fa-check-circle"></i>';
+                }
+                else{
+                    inner += '<i class="fas fa-times-circle"></i>';
+                }
+                inner += '</td>';
+            }
+            else{
+                inner += '<td>' + data + "</td>";
+            }
         }
         inner += '</tr>';
     }
@@ -172,22 +197,22 @@ function populateRows(){
 function handleSort(event){
     let header = $(event.target);
     sortKey = header.attr("data-key")
-    if(header.find("span#desc").is(":visible")){
+    if(header.hasClass("desc")){
         clearSort();
-        header.find("span#asc").removeClass("d-none");
+        header.addClass("asc");
         sortAscending = true;
         sortPets();
     }
-    else if(header.find("span#asc").is(":visible")){
+    else if(header.hasClass("asc")){
         clearSort();
-        header.find("span#desc").removeClass("d-none");
+        header.addClass("desc");
         sortAscending = false;
         sortPets();
     }
     else
     {
         clearSort();
-        header.find("span#asc").removeClass("d-none");
+        header.addClass("asc");
         sortAscending = true;
         sortPets();
     }
@@ -195,15 +220,41 @@ function handleSort(event){
 
 
 function filterPets(event){
-    tableData = jsonObj[type];
+    tableData = jsonObj["data"];
+    currentPage = 1;
     for(field of fields){
         let text = table.find('input[data-key="' + field + '"]').val();
         if(text != "" && text != null && text !== undefined){
             tableData = tableData.filter(function(pet){
-                return pet[field].toLowerCase().startsWith(text.toLowerCase());
+                if(field == "age"){
+                    return pet[field].toString() == text;
+                }
+                else if(field == "notes"){
+                    if(pet[field] == null){
+                        return text == "0" || text.startsWith("n");
+                    }
+                    else{
+                        return pet[field].length.toString() == text;
+                    }
+                }
+                else{
+                    return pet[field].toLowerCase().startsWith(text.toLowerCase());
+                }
             });
         }
     }
+
+    pages = tableData.length;
+    currentPage = 1;
+    let defaultOpts = {
+        totalPages: 20
+    };
+    $("#paginate").twbsPagination('destroy');
+    $("#paginate").twbsPagination($.extend({}, defaultOpts, {
+        startPage: currentPage,
+        totalPages: pages,
+        onPageClick: changePage
+    }));
     sortPets();
 }
 
@@ -211,15 +262,23 @@ function filterPets(event){
 function sortPets(){
     if(sortKey !== undefined){
         let direction = sortAscending ? 1 : -1;
-        tableData.sort(function(a,b){
-            return a[sortKey].toLowerCase().localeCompare(b[sortKey].toLowerCase(), undefined ,{numeric: sortKey=="age"})*direction;
-        });
+        if(sortKey == "notes"){
+            tableData.sort(function(a,b){
+                return (b.length-a.length)*direction;
+            });
+        }
+        else{
+            tableData.sort(function(a,b){
+                return a[sortKey].toLowerCase().localeCompare(b[sortKey].toLowerCase())*direction;
+            });
+        }
     }
     populateRows();
 }
 
 function clearSort(){
-    table.find("th span").addClass("d-none");
+    table.find("th").removeClass("asc");
+    table.find("th").removeClass("desc");
 }
 
 function shotModal(event){
@@ -234,7 +293,17 @@ function noteModal(event){
     $("#exampleModalCenter").modal();
 }
 
+
+function changePage(event, page){
+    currentPage = page;
+    loadTable(Object.keys(jsonObj["data"][0]));
+}
+
 $(document).ready(function(){
-    
+    $('#paginate').twbsPagination({
+        totalPages: pages,
+        visiblePages: 10,
+        onPageClick: changePage
+    });
  
 });
